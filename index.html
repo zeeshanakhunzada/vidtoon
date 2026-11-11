@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VidToon Studio – Script to Cartoon Video Maker (Free)</title>
+<meta name="description" content="Write a script and VidToon Studio turns it into an animated cartoon video with talking characters, backgrounds and captions. Free, runs in your browser.">
+<meta name="author" content="Zeeshan Akhunzada">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23ec4899'/%3E%3Cpath d='M25 18l23 14-23 14z' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- GOOGLE ADSENSE: paste your AdSense script here after approval -->
+<style>
+:root{--bg:#0b0b1a;--card:#14142b;--line:#2a2a52;--txt:#eef0ff;--mut:#a3a9d4;--g:linear-gradient(135deg,#7c3aed,#ec4899 55%,#f59e0b)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Poppins,"Segoe UI",system-ui,sans-serif;background:radial-gradient(900px 500px at 10% -10%,#3b1d8f55,transparent),radial-gradient(800px 500px at 100% 0,#ec489933,transparent),var(--bg);color:var(--txt);line-height:1.6}
+a{color:inherit}
+.wrap{max-width:1180px;margin:auto;padding:0 18px}
+header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:#0b0b1acc;border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.15rem}
+.brand svg{width:40px;height:40px;filter:drop-shadow(0 4px 12px #ec489966)}
+.brand small{display:block;font-weight:400;font-size:.62rem;color:var(--mut);letter-spacing:.08em;margin-top:-4px}
+nav a{margin-left:18px;text-decoration:none;color:var(--mut);font-size:.9rem}
+nav a:hover{color:#fff}
+.hero{text-align:center;padding:42px 0 22px}
+.hero h1{font-size:clamp(1.9rem,5.5vw,3.4rem);line-height:1.12;margin:0 0 12px;font-weight:800}
+.grad{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mut);max-width:620px;margin:0 auto;font-size:1.02rem}
+.studio{display:grid;gap:18px;grid-template-columns:1fr;margin:26px 0 10px}
+@media(min-width:960px){.studio{grid-template-columns:1.15fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+.stage{width:100%;margin:0 auto;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}
+.stage canvas{width:100%;height:100%;display:block}
+.progress{height:6px;border-radius:9px;background:#26264a;margin:12px 0 6px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--g)}
+.meta{display:flex;justify-content:space-between;font-size:.78rem;color:var(--mut);gap:8px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.btn{border:0;cursor:pointer;font:600 .92rem Poppins,system-ui,sans-serif;color:#fff;padding:11px 18px;border-radius:12px;background:#2a2a52;text-decoration:none;display:inline-block}
+.btn.p{background:var(--g)}
+.btn:active{transform:scale(.97)}
+label.l{display:block;font-size:.78rem;color:var(--mut);margin:12px 0 6px;font-weight:600;letter-spacing:.03em}
+textarea,select{width:100%;background:#0d0d24;color:var(--txt);border:1px solid var(--line);border-radius:12px;padding:11px;font:.92rem Poppins,system-ui,sans-serif}
+textarea{min-height:170px;resize:vertical}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:84px;background:#0d0d24;border:1px solid var(--line);color:var(--mut);padding:9px 8px;border-radius:11px;cursor:pointer;font:600 .8rem Poppins,system-ui,sans-serif}
+.seg button.on{background:var(--g);color:#fff;border-color:transparent}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{display:flex;align-items:center;gap:6px;background:#0d0d24;border:1px solid var(--line);border-radius:11px;padding:8px 12px;font-size:.85rem;cursor:pointer}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:.85rem;color:var(--mut)}
+.row label{display:flex;gap:6px;align-items:center;cursor:pointer}
+input[type=range]{accent-color:#ec4899}
+input[type=file]{font-size:.8rem;color:var(--mut);width:100%}
+.note{font-size:.74rem;color:var(--mut);margin:8px 0 0}
+section{padding:34px 0}
+h2{font-size:clamp(1.4rem,3.5vw,2rem);margin:0 0 6px;font-weight:800}
+.sub{color:var(--mut);margin:0 0 20px}
+.grid3{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.feat .ic{width:44px;height:44px;border-radius:13px;background:var(--g);display:grid;place-items:center;font-size:1.3rem;margin-bottom:10px}
+.feat h3{margin:0 0 4px;font-size:1.02rem}
+.feat p{margin:0;color:var(--mut);font-size:.88rem}
+.step b{font-size:2rem;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--mut);margin:8px 0 0;font-size:.9rem}
+.contact{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));align-items:center}
+.who{font-size:1.25rem;font-weight:800}
+.ci{display:block;margin:6px 0;color:var(--mut);text-decoration:none}
+.ci b{color:var(--txt)}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0;color:var(--mut);font-size:.85rem;text-align:center}
+footer a{margin:0 8px;text-decoration:none}
+footer .dev{color:var(--txt);margin-top:8px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/><stop offset=".55" stop-color="#ec4899"/><stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <symbol id="logo" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="18" fill="url(#lg)"/>
+    <path d="M24 20 L45 32 L24 44 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M50 8l2.4 6.2 6.2 2.4-6.2 2.4L50 25.2l-2.4-6.2-6.2-2.4 6.2-2.4z" fill="#fff"/>
+    <circle cx="14" cy="52" r="3" fill="#fff" opacity=".7"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="VidToon Studio home">
+      <svg><use href="#logo"/></svg>
+      <span>VidToon Studio<small>SCRIPT TO CARTOON VIDEO</small></span>
+    </a>
+    <nav>
+      <a href="#studio">Studio</a><a href="#features">Features</a><a href="about.html">About</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>Write a script. Get a <span class="grad">cartoon video.</span></h1>
+    <p>Pick your characters, type your story, and watch them talk, move and react. Make videos for YouTube Shorts, Reels and TikTok, free, right in your browser.</p>
+  </div>
+
+  <div class="studio" id="studio">
+    <div class="card">
+      <div class="stage" id="stage"><canvas id="cv" width="1280" height="720"></canvas></div>
+      <div class="progress"><i id="bar"></i></div>
+      <div class="meta"><span id="status">Ready. Write a script and press Preview.</span><span id="time">0:00 / 0:00</span></div>
+      <div class="btns">
+        <button class="btn p" id="bPlay">▶ Preview</button>
+        <button class="btn" id="bStop">■ Stop</button>
+        <button class="btn p" id="bExp">⬇ Download Video</button>
+      </div>
+      <p class="note">Download records the video in real time, so keep this tab open until it finishes. The exported file has no voice (browser limit), but you can add your own voiceover or music file below, or add a voice later in CapCut.</p>
+      <!-- AD SLOT: place an AdSense ad unit here -->
+    </div>
+
+    <div class="card">
+      <label class="l">1. YOUR SCRIPT (one line = one scene)</label>
+      <textarea id="script" spellcheck="false">Hi! I am Zee. Today I will tell you a cool fact.
+Honey never spoils. Archaeologists found edible honey in ancient tombs!
+Wow, that is amazing. Tell me more!
+Bees visit millions of flowers to make just one jar of honey.
+Thanks for watching. Follow for more fun facts!</textarea>
+      <div class="row">
+        <button class="btn" id="s1" style="padding:7px 12px;font-size:.78rem">Sample: Fun Facts</button>
+        <button class="btn" id="s2" style="padding:7px 12px;font-size:.78rem">Sample: Motivation</button>
+      </div>
+
+      <label class="l">2. VIDEO STYLE</label>
+      <div class="seg">
+        <button class="on" data-mode="cartoon">🎭 Cartoon</button>
+        <button data-mode="slides">✨ Text Slides</button>
+        <button data-mode="media">🖼 Photo/Video</button>
+      </div>
+
+      <div id="cartoonOpts">
+        <label class="l">CHARACTERS (pick 1 or 2, two characters talk in turns)</label>
+        <div class="chips" id="chars">
+          <label><input type="checkbox" value="boy" checked> 👦 Boy</label>
+          <label><input type="checkbox" value="girl" checked> 👧 Girl</label>
+          <label><input type="checkbox" value="robot"> 🤖 Robot</label>
+          <label><input type="checkbox" value="cat"> 🐱 Cat</label>
+        </div>
+        <label class="l">BACKGROUND</label>
+        <select id="bg">
+          <option value="auto">Auto (changes each scene)</option>
+          <option value="day">Sunny Day</option><option value="sunset">Sunset</option>
+          <option value="room">Cozy Room</option><option value="forest">Forest</option>
+          <option value="night">Night Sky</option><option value="space">Outer Space</option>
+        </select>
+      </div>
+
+      <div id="mediaOpts" hidden>
+        <label class="l">UPLOAD PHOTOS / VIDEO CLIPS (used in order, one per scene)</label>
+        <input type="file" id="media" accept="image/*,video/*" multiple>
+        <p class="note" id="mediaInfo">No files yet.</p>
+        <div class="row"><label><input type="checkbox" id="caps" checked> Show captions</label></div>
+      </div>
+
+      <label class="l">3. FORMAT</label>
+      <div class="seg">
+        <button class="on" data-fmt="16:9">16:9 YouTube</button>
+        <button data-fmt="9:16">9:16 Shorts/Reels</button>
+        <button data-fmt="1:1">1:1 Square</button>
+      </div>
+
+      <label class="l">4. VOICE (preview)</label>
+      <select id="voice"><option value="off">Voice off</option></select>
+      <div class="row"><span>Speed</span><input type="range" id="speed" min="0.6" max="1.4" step="0.05" value="1"><span id="speedV">1.0x</span></div>
+
+      <label class="l">5. MUSIC OR YOUR VOICEOVER (optional, added to the download)</label>
+      <input type="file" id="music" accept="audio/*">
+      <div class="row"><label><input type="checkbox" id="wm" checked> Show “Made with VidToon Studio” watermark</label></div>
+    </div>
+  </div>
+</main>
+
+<section id="features"><div class="wrap">
+  <h2>Everything you need to make <span class="grad">fun videos</span></h2>
+  <p class="sub">No sign-up, no software to install.</p>
+  <div class="grid3">
+    <div class="card feat"><div class="ic">🎭</div><h3>Talking cartoon characters</h3><p>Four characters with blinking eyes, moving mouths and waving arms. Use two and they talk in turns.</p></div>
+    <div class="card feat"><div class="ic">🌄</div><h3>Animated backgrounds</h3><p>Sunny day, sunset, cozy room, forest, night sky and outer space with moving clouds and stars.</p></div>
+    <div class="card feat"><div class="ic">🗣</div><h3>Voice preview</h3><p>Hear your script read aloud using the voices already on your phone or computer.</p></div>
+    <div class="card feat"><div class="ic">🖼</div><h3>Photo &amp; video slideshow</h3><p>Upload your own clips and pictures and add captions with smooth zoom effects.</p></div>
+    <div class="card feat"><div class="ic">📱</div><h3>Shorts, Reels, TikTok</h3><p>Vertical 9:16, horizontal 16:9 and square 1:1 formats in one click.</p></div>
+    <div class="card feat"><div class="ic">🔒</div><h3>Private and free</h3><p>Everything runs in your browser. Your script and files are never uploaded anywhere.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>How it works</h2><p class="sub">Three steps, about a minute.</p>
+  <div class="grid3">
+    <div class="card step"><b>1</b><h3>Write</h3><p class="sub" style="margin:0">Type or paste your script. Each line becomes a scene.</p></div>
+    <div class="card step"><b>2</b><h3>Choose</h3><p class="sub" style="margin:0">Pick characters, background and your video format.</p></div>
+    <div class="card step"><b>3</b><h3>Download</h3><p class="sub" style="margin:0">Press Download Video and save it to your device.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Questions</h2><p class="sub">Quick answers.</p>
+  <details><summary>Is this generative AI video?</summary><p>No. VidToon Studio animates ready-made cartoon characters from your script. It is not a generative model like Veo or Runway, so it is fast and completely free.</p></details>
+  <details><summary>Does the downloaded video include the voice?</summary><p>Browsers cannot record their built-in text-to-speech, so the download has no synthetic voice. You can upload your own voiceover or music in step 5, or add a voice afterwards in a free editor like CapCut.</p></details>
+  <details><summary>Which file format do I get?</summary><p>WebM on Chrome and Android, MP4 on browsers that support it. Both work on YouTube, and CapCut can convert them.</p></details>
+  <details><summary>Are my scripts saved?</summary><p>No. Everything happens inside your browser and nothing is sent to a server.</p></details>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <div class="card contact">
+    <div>
+      <div class="who grad">Zeeshan Akhunzada</div>
+      <div style="color:var(--mut);margin-bottom:8px">Web Developer</div>
+      <p style="color:var(--mut);margin:0;font-size:.9rem">Need a website like this for your business or brand? Get in touch.</p>
+    </div>
+    <div>
+      <a class="ci" href="tel:+923355397951">📞 <b>0335 5397951</b></a>
+      <a class="ci" href="mailto:zeeshanakhunzada001@gmail.com">✉️ <b>zeeshanakhunzada001@gmail.com</b></a>
+      <div class="btns">
+        <a class="btn p" href="https://wa.me/923355397951?text=Hello%20Zeeshan%2C%20I%20saw%20VidToon%20Studio" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <a class="btn" href="mailto:zeeshanakhunzada001@gmail.com">Send Email</a>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a></div>
+    <div class="dev">© 2026 VidToon Studio · Developed by Web Developer <b>Zeeshan Akhunzada</b></div>
+  </div>
+</footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const canvas=$('#cv'),ctx=canvas.getContext('2d');
+const synth=window.speechSynthesis||{getVoices:()=>[],cancel(){},speak(){}};
+let W=1280,H=720,mode='cartoon';
+let scenes=[],total=0,playing=false,recording=false,cancelled=false,t0=0,raf=0,curScene=-1;
+let mr=null,chunks=[],trackAudio=null,recAC=null,media=[],audioURL=null,voices=[];
+const FONT='"Poppins","Segoe UI",system-ui,sans-serif';
+const BGS=['day','sunset','room','forest','night','space'];
+const PAL=[['#7c3aed','#ec4899'],['#0ea5e9','#6366f1'],['#f97316','#ef4444'],['#10b981','#0ea5e9'],['#f59e0b','#ec4899'],['#8b5cf6','#06b6d4']];
+const stars=Array.from({length:80},()=>({x:Math.random(),y:Math.random()*.85,r:Math.random()*2+.6,p:Math.random()*6}));
+
+/* ---------- drawing helpers ---------- */
+function pathRR(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function rr(x,y,w,h,r,f){pathRR(x,y,w,h,r);ctx.fillStyle=f;ctx.fill();}
+function ov(x,y,rx,ry,f){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=f;ctx.fill();}
+function poly(p,f){ctx.beginPath();p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath();ctx.fillStyle=f;ctx.fill();}
+function wrap(text,maxW){const words=text.split(/\s+/),lines=[];let line='';words.forEach(w=>{const test=line?line+' '+w:w;if(ctx.measureText(test).width>maxW&&line){lines.push(line);line=w}else line=test});if(line)lines.push(line);return lines}
+function easeOutBack(x){const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)}
+function mmss(s){s=Math.max(0,Math.floor(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+
+/* ---------- backgrounds ---------- */
+function grad(c1,c2){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,c1);g.addColorStop(1,c2);ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+function cloud(x,y,s){ctx.fillStyle='rgba(255,255,255,.92)';[[0,0,1],[.9,.2,.8],[-.9,.25,.75],[.3,-.4,.7]].forEach(c=>{ctx.beginPath();ctx.arc(x+c[0]*s,y+c[1]*s,c[2]*s*.7,0,7);ctx.fill()})}
+function hills(c1,c2){ov(W*.25,H*1.03,W*.6,H*.2,c1);ov(W*.85,H*1.06,W*.65,H*.19,c2)}
+function drawBG(type,t){
+  const m=Math.min(W,H);
+  if(type==='day'){
+    grad('#38bdf8','#e0f2fe');ov(W*.82,H*.16,m*.07,m*.07,'#fde047');
+    for(let k=0;k<4;k++)cloud(((t*18*(k+1)*.6+k*W/3)%(W+400))-200,H*(.1+.08*k),m*.07);
+    hills('#4ade80','#22c55e');
+  }else if(type==='sunset'){
+    grad('#6d28d9','#fb923c');ov(W*.5,H*.66,m*.17,m*.17,'#fde68a');
+    for(let k=0;k<3;k++)cloud(((t*10*(k+1)+k*W/2)%(W+400))-200,H*(.12+.1*k),m*.06);
+    hills('#7e22ce','#581c87');
+  }else if(type==='room'){
+    ctx.fillStyle='#fde7c7';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#a16207';ctx.fillRect(0,H*.8,W,H*.2);ctx.fillStyle='#78350f';ctx.fillRect(0,H*.79,W,H*.012);
+    rr(W*.08,H*.1,m*.3,m*.28,12,'#fff');rr(W*.08+8,H*.1+8,m*.3-16,m*.28-16,8,'#7dd3fc');
+    ctx.fillStyle='#fff';ctx.fillRect(W*.08+m*.15-4,H*.1+8,8,m*.28-16);ctx.fillRect(W*.08+8,H*.1+m*.14-4,m*.3-16,8);
+    cloud(W*.08+m*.1+Math.sin(t*.4)*14,H*.1+m*.09,m*.04);
+    rr(W*.64,H*.12,m*.22,m*.16,8,'#92400e');rr(W*.64+8,H*.12+8,m*.22-16,m*.16-16,4,'#fbcfe8');
+    ov(W*.64+m*.11,H*.12+m*.09,m*.04,m*.04,'#f472b6');
+    rr(W*.9,H*.66,m*.06,m*.08,6,'#b45309');ov(W*.93,H*.62,m*.05,m*.05,'#22c55e');ov(W*.91,H*.58,m*.035,m*.035,'#16a34a');
+  }else if(type==='forest'){
+    grad('#a7f3d0','#ecfccb');
+    for(let k=0;k<7;k++){const x=(k+.5)*W/7,sw=Math.sin(t+k)*4;rr(x-8,H*.62,16,H*.26,4,'#78350f');poly([[x-m*.11+sw,H*.72],[x+m*.11+sw,H*.72],[x+sw*1.5,H*.4]],'#16a34a');poly([[x-m*.08+sw,H*.6],[x+m*.08+sw,H*.6],[x+sw*1.8,H*.3]],'#22c55e')}
+    ctx.fillStyle='#15803d';ctx.fillRect(0,H*.86,W,H*.14);
+  }else if(type==='night'){
+    grad('#0f172a','#312e81');
+    stars.forEach(s=>{ctx.globalAlpha=.45+.55*Math.abs(Math.sin(t*2+s.p));ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,7);ctx.fill()});ctx.globalAlpha=1;
+    ov(W*.8,H*.18,m*.07,m*.07,'#fef9c3');ov(W*.8+m*.03,H*.18-m*.01,m*.06,m*.06,'#1e1b4b');
+    hills('#14532d','#052e16');
+  }else{
+    grad('#020617','#312e81');
+    stars.forEach(s=>{const x=((s.x*W-t*12*s.r)%W+W)%W;ctx.globalAlpha=.5+.5*Math.abs(Math.sin(t+s.p));ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,s.y*H,s.r,0,7);ctx.fill()});ctx.globalAlpha=1;
+    ov(W*.8,H*.25,m*.12,m*.12,'#f472b6');
+    ctx.strokeStyle='rgba(253,230,138,.8)';ctx.lineWidth=m*.012;ctx.beginPath();ctx.ellipse(W*.8,H*.25,m*.2,m*.045,-.35,0,Math.PI*2);ctx.stroke();
+    ov(W*.5,H*1.12,W*.8,H*.22,'#64748b');ov(W*.2,H*.93,m*.05,m*.02,'#475569');
+  }
+}
+
+/* ---------- characters ---------- */
+function face(cx,cy,o){
+  if(o.blink){ctx.strokeStyle='#111';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(cx-o.gap-6,cy);ctx.lineTo(cx-o.gap+6,cy);ctx.moveTo(cx+o.gap-6,cy);ctx.lineTo(cx+o.gap+6,cy);ctx.stroke()}
+  else{ov(cx-o.gap,cy,5,6.5,'#111');ov(cx+o.gap,cy,5,6.5,'#111');ov(cx-o.gap+1.6,cy-2,1.8,1.8,'#fff');ov(cx+o.gap+1.6,cy-2,1.8,1.8,'#fff')}
+  if(o.cheek){ov(cx-o.gap-6,cy+10,6,4,'rgba(244,114,182,.5)');ov(cx+o.gap+6,cy+10,6,4,'rgba(244,114,182,.5)')}
+  const my=cy+o.mouthY;
+  if(o.talk){ov(cx,my,8,2+o.mo*8,'#7f1d1d');ov(cx,my+1+o.mo*4,5,o.mo*3,'#fb7185')}
+  else{ctx.strokeStyle='#7f1d1d';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.beginPath();ctx.arc(cx,my-4,8,.15*Math.PI,.85*Math.PI);ctx.stroke()}
+}
+function drawChar(type,x,y,sz,talk,t){
+  ctx.save();ctx.translate(x,y);const u=sz/100;ctx.scale(u,u);
+  ov(0,0,40,8,'rgba(0,0,0,.18)');
+  ctx.translate(0,Math.sin(t*(talk?8:2.4))*(talk?3.5:1.6));
+  const blink=(t%3.4)<.13,mo=talk?.25+.75*Math.abs(Math.sin(t*13)):0;
+  const arm=(sx,rot,len,col,hand)=>{ctx.save();ctx.translate(sx,-88);ctx.rotate(rot);rr(-6,-4,12,len,6,col);ov(0,len-2,7,7,hand);ctx.restore()};
+  const wave=talk?-2.3+Math.sin(t*9)*.5:-.35+Math.sin(t*2)*.05;
+  if(type==='boy'||type==='girl'){
+    const skin=type==='boy'?'#f6c9a0':'#fcd9b6',cl=type==='boy'?'#3b82f6':'#ec4899';
+    rr(-18,-42,14,42,5,'#374151');rr(4,-42,14,42,5,'#374151');ov(-12,0,13,6,'#111827');ov(12,0,13,6,'#111827');
+    if(type==='boy')rr(-29,-98,58,60,16,cl);else poly([[-22,-98],[22,-98],[36,-38],[-36,-38]],cl);
+    arm(-28,.35,40,cl,skin);arm(28,wave,40,cl,skin);
+    if(type==='girl'){ov(0,-122,41,39,'#7c3f1d');ov(-44,-108,11,17,'#7c3f1d');ov(44,-108,11,17,'#7c3f1d')}
+    ov(0,-125,34,32,skin);
+    ctx.beginPath();ctx.ellipse(0,-131,36,27,0,Math.PI,Math.PI*2);ctx.fillStyle=type==='boy'?'#1f2937':'#7c3f1d';ctx.fill();
+    if(type==='girl'){poly([[30,-150],[46,-160],[46,-140]],'#f472b6');poly([[30,-150],[14,-160],[14,-140]],'#f472b6');ov(30,-150,5,5,'#db2777')}
+    face(0,-124,{gap:12,talk,blink,mo,cheek:1,mouthY:15});
+  }else if(type==='robot'){
+    rr(-20,-46,14,46,4,'#64748b');rr(6,-46,14,46,4,'#64748b');ov(-13,0,14,6,'#334155');ov(13,0,14,6,'#334155');
+    rr(-30,-108,60,64,10,'#94a3b8');rr(-14,-96,28,18,5,'#0f172a');ov(-6,-87,4,4,'#22d3ee');ov(6,-87,4,4,'#f472b6');
+    arm(-32,.3,40,'#64748b','#cbd5e1');arm(32,wave,40,'#64748b','#cbd5e1');
+    ctx.strokeStyle='#64748b';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,-152);ctx.lineTo(0,-166);ctx.stroke();ov(0,-168,6,6,(t%1<.5)?'#ef4444':'#fca5a5');
+    rr(-36,-156,72,52,14,'#cbd5e1');rr(-28,-148,56,36,10,'#0f172a');
+    if(blink){ctx.fillStyle='#22d3ee';ctx.fillRect(-18,-137,12,3);ctx.fillRect(6,-137,12,3)}else{ov(-12,-136,6,7,'#22d3ee');ov(12,-136,6,7,'#22d3ee')}
+    rr(-12,-124,24,3+mo*9,2,'#22d3ee');
+  }else{
+    ctx.strokeStyle='#f59e0b';ctx.lineWidth=12;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(30,-30);ctx.bezierCurveTo(70,-30,70+Math.sin(t*3)*15,-90,50,-100+Math.sin(t*3)*8);ctx.stroke();
+    ov(0,-52,34,46,'#fbbf24');ov(0,-46,20,32,'#fef3c7');ov(-14,-2,13,7,'#f59e0b');ov(14,-2,13,7,'#f59e0b');
+    arm(-30,.3,34,'#fbbf24','#fbbf24');arm(30,wave,34,'#fbbf24','#fbbf24');
+    poly([[-36,-136],[-32,-172],[-10,-150]],'#f59e0b');poly([[36,-136],[32,-172],[10,-150]],'#f59e0b');
+    poly([[-31,-142],[-30,-162],[-17,-149]],'#fda4af');poly([[31,-142],[30,-162],[17,-149]],'#fda4af');
+    ov(0,-122,40,34,'#fbbf24');
+    ctx.strokeStyle='#d97706';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-6,-153);ctx.lineTo(-4,-143);ctx.moveTo(0,-155);ctx.lineTo(0,-144);ctx.moveTo(6,-153);ctx.lineTo(4,-143);ctx.stroke();
+    face(0,-126,{gap:15,talk,blink,mo,cheek:0,mouthY:18});
+    poly([[-4,-120],[4,-120],[0,-115]],'#f472b6');
+    ctx.strokeStyle='#92400e';ctx.lineWidth=1.5;ctx.beginPath();[[-20,-114,-44,-118],[-20,-110,-44,-108],[20,-114,44,-118],[20,-110,44,-108]].forEach(w=>{ctx.moveTo(w[0],w[1]);ctx.lineTo(w[2],w[3])});ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/* ---------- scene renderers ---------- */
+function bubble(text,lt,dur,tx){
+  const fs=Math.max(26,Math.min(W,H)*.05);ctx.font=`600 ${fs}px ${FONT}`;
+  const bw=W*.84,pad=fs*.8,lines=wrap(text,bw-pad*2),lh=fs*1.3,bh=lines.length*lh+pad*2;
+  const bx=(W-bw)/2,by=H*(H>W?.1:.06);
+  const shown=Math.ceil(text.length*Math.min(1,lt/(dur*.7)));
+  const tcx=Math.max(bx+40,Math.min(bx+bw-40,tx));
+  ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=18;
+  poly([[tcx-18,by+bh-2],[tcx+18,by+bh-2],[tcx,by+bh+fs*1.2]],'#fff');
+  rr(bx,by,bw,bh,fs*.7,'#fff');
+  ctx.shadowBlur=0;
+  ctx.fillStyle='#1e1b4b';ctx.textAlign='left';ctx.textBaseline='top';
+  let left=shown;
+  lines.forEach((ln,i)=>{const x0=W/2-ctx.measureText(ln).width/2;ctx.fillText(ln.slice(0,Math.max(0,left)),x0,by+pad+i*lh);left-=ln.length+1});
+}
+function selChars(){const c=$$('#chars input:checked').map(i=>i.value);return c.length?c:['boy']}
+function renderCartoon(s,lt,t){
+  drawBG(s.bg,t);
+  const chars=selChars(),n=chars.length,m=Math.min(W,H);
+  const sz=m*(n===1?.30:.26),fy=H*(H>W?.9:.93),xs=n===1?[W*.5]:[W*.27,W*.73];
+  chars.forEach((c,k)=>drawChar(c,xs[k],fy,sz,k===s.speaker&&lt<s.dur-.25,t));
+  bubble(s.text,lt,s.dur,xs[Math.min(s.speaker,n-1)]);
+}
+function renderSlides(s,lt,t){
+  const p=PAL[s.idx%PAL.length],g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,p[0]);g.addColorStop(1,p[1]);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  for(let k=0;k<7;k++){ctx.fillStyle='rgba(255,255,255,.08)';ctx.beginPath();ctx.arc((((k*.17+.1)*W+Math.sin(t*.5+k)*40)%W+W)%W,((k*.31)%1)*H+Math.cos(t*.6+k*2)*40,Math.min(W,H)*(.05+.03*(k%3)),0,7);ctx.fill()}
+  let fs=Math.min(W,H)*.085,lines;
+  for(;;){ctx.font=`800 ${fs}px ${FONT}`;lines=wrap(s.text,W*.82);if(lines.length*fs*1.25<H*.7||fs<22)break;fs-=3}
+  const e=easeOutBack(Math.min(1,lt/.55));
+  ctx.save();ctx.translate(W/2,H/2);ctx.scale(e,e);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=14;
+  lines.forEach((ln,i)=>ctx.fillText(ln,0,(i-(lines.length-1)/2)*fs*1.25));
+  ctx.restore();ctx.shadowBlur=0;
+}
+function caption(text){
+  const fs=Math.max(24,Math.min(W,H)*.05);ctx.font=`700 ${fs}px ${FONT}`;
+  const lines=wrap(text,W*.84),lh=fs*1.3,bh=lines.length*lh+fs*.8,by=H-bh-H*.06;
+  ctx.fillStyle='rgba(0,0,0,.55)';pathRR(W*.06,by,W*.88,bh,14);ctx.fill();
+  ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='top';
+  lines.forEach((l,i)=>ctx.fillText(l,W/2,by+fs*.4+i*lh));
+}
+function renderMedia(s,lt,t){
+  ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+  if(!media.length){renderSlides(s,lt,t);return}
+  const m=media[s.idx%media.length],e=m.el,z=1+.1*(lt/s.dur);
+  const w0=m.type==='img'?e.naturalWidth:e.videoWidth,h0=m.type==='img'?e.naturalHeight:e.videoHeight;
+  if(w0&&h0){const r=Math.max(W/w0,H/h0)*z;ctx.drawImage(e,(W-w0*r)/2,(H-h0*r)/2,w0*r,h0*r)}
+  if($('#caps').checked)caption(s.text);
+}
+function watermark(){
+  if(!$('#wm').checked)return;
+  ctx.font=`600 ${Math.max(14,Math.min(W,H)*.022)}px ${FONT}`;ctx.textAlign='right';ctx.textBaseline='bottom';
+  ctx.fillStyle='rgba(255,255,255,.8)';ctx.shadowColor='rgba(0,0,0,.55)';ctx.shadowBlur=4;
+  ctx.fillText('Made with VidToon Studio',W*.98,H*.985);ctx.shadowBlur=0;
+}
+function render(s,lt,t){
+  ctx.save();ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.lineCap='butt';
+  if(mode==='cartoon')renderCartoon(s,lt,t);else if(mode==='slides')renderSlides(s,lt,t);else renderMedia(s,lt,t);
+  watermark();ctx.restore();
+}
+
+/* ---------- script -> scenes ---------- */
+function parseScript(){
+  const raw=$('#script').value.trim();if(!raw)return[];
+  const out=[];
+  raw.split(/\n+/).map(s=>s.trim()).filter(Boolean).forEach(l=>{
+    if(l.length>120){
+      const parts=l.match(/[^.!?۔]+[.!?۔]*/g)||[l];let buf='';
+      parts.forEach(p=>{if((buf+p).length>120&&buf){out.push(buf.trim());buf=p}else buf+=p});
+      if(buf.trim())out.push(buf.trim());
+    }else out.push(l);
+  });
+  const n=selChars().length,bgSel=$('#bg').value,rate=+$('#speed').value;
+  let t=0;
+  return out.slice(0,40).map((text,i)=>{
+    const words=text.split(/\s+/).length,dur=Math.max(2.8,(words*.45+.8)/rate);
+    const s={text,start:t,dur,idx:i,speaker:i%n,bg:bgSel==='auto'?BGS[i%BGS.length]:bgSel};
+    t+=dur;return s;
+  });
+}
+function renderIdle(){
+  if(playing)return;
+  const sc=parseScript();
+  if(!sc.length){ctx.fillStyle='#111';ctx.fillRect(0,0,W,H);return}
+  render(sc[0],sc[0].dur*.85,1.5);
+}
+
+/* ---------- voice ---------- */
+function loadVoices(){
+  voices=synth.getVoices();const sel=$('#voice'),cur=sel.value;
+  sel.innerHTML='<option value="off">Voice off</option>'+voices.map((v,i)=>`<option value="${i}">${v.name} (${v.lang})</option>`).join('');
+  if(cur&&cur!=='off')sel.value=cur;
+  else if(voices.length){const i=voices.findIndex(v=>/^en/i.test(v.lang));sel.value=String(i>=0?i:0)}
+}
+if(synth.onvoiceschanged!==undefined)synth.onvoiceschanged=loadVoices;
+loadVoices();
+function speak(text,speaker){
+  if(recording||$('#voice').value==='off')return;
+  synth.cancel();
+  const u=new SpeechSynthesisUtterance(text),v=voices[+$('#voice').value];
+  if(v){u.voice=v;u.lang=v.lang}
+  u.rate=+$('#speed').value;u.pitch=speaker%2?1.35:1;
+  synth.speak(u);
+}
+
+/* ---------- audio track ---------- */
+function startAudio(forRecord,stream){
+  if(!audioURL)return;
+  const a=new Audio(audioURL);a.loop=true;trackAudio=a;
+  if(forRecord){
+    recAC=new (window.AudioContext||window.webkitAudioContext)();recAC.resume();
+    const src=recAC.createMediaElementSource(a),d=recAC.createMediaStreamDestination();
+    src.connect(d);d.stream.getAudioTracks().forEach(tr=>stream.addTrack(tr));
+  }else a.volume=.4;
+  a.play().catch(()=>{});
+}
+function stopAudio(){
+  if(trackAudio){trackAudio.pause();trackAudio=null}
+  if(recAC){recAC.close().catch(()=>{});recAC=null}
+}
+
+/* ---------- playback ---------- */
+function status(m){$('#status').textContent=m}
+function prepare(){
+  scenes=parseScript();
+  if(!scenes.length){status('Please write a script first.');return false}
+  if(mode==='media'&&!media.length){status('Upload photos or videos first, or switch the style.');return false}
+  const l=scenes[scenes.length-1];total=l.start+l.dur;return true;
+}
+function onSceneStart(s){
+  speak(s.text,s.speaker);
+  if(mode==='media'&&media.length){const m=media[s.idx%media.length];if(m.type==='vid'){m.el.currentTime=0;m.el.play().catch(()=>{})}}
+}
+function drawAt(t){
+  let i=scenes.findIndex(s=>t>=s.start&&t<s.start+s.dur);if(i<0)i=scenes.length-1;
+  const s=scenes[i];
+  if(playing&&i!==curScene){curScene=i;onSceneStart(s)}
+  render(s,Math.min(t-s.start,s.dur),t);
+}
+function frame(now){
+  if(!playing)return;
+  const t=(now-t0)/1000;
+  if(t>=total){finish();return}
+  drawAt(t);
+  $('#bar').style.width=(t/total*100)+'%';$('#time').textContent=mmss(t)+' / '+mmss(total);
+  raf=requestAnimationFrame(frame);
+}
+function startPlay(){playing=true;curScene=-1;t0=performance.now();raf=requestAnimationFrame(frame)}
+function stopMediaEls(){media.forEach(m=>{if(m.type==='vid')m.el.pause()})}
+function stop(){
+  const wasPlaying=playing;
+  playing=false;cancelAnimationFrame(raf);synth.cancel();stopAudio();stopMediaEls();
+  if(recording){cancelled=true;recording=false;try{mr.stop()}catch(e){}status('Export cancelled.')}
+  else if(wasPlaying)status('Stopped.');
+}
+function finish(){
+  playing=false;cancelAnimationFrame(raf);drawAt(total-.01);
+  synth.cancel();stopMediaEls();
+  $('#bar').style.width='100%';$('#time').textContent=mmss(total)+' / '+mmss(total);
+  if(recording){recording=false;status('Finishing video…');stopAudio();setTimeout(()=>{try{mr.stop()}catch(e){}},400)}
+  else{stopAudio();status('Preview finished.')}
+}
+function preview(){
+  stop();if(!prepare()){return}
+  status('Playing preview…');startAudio(false);startPlay();
+}
+function exportVideo(){
+  stop();if(!prepare())return;
+  if(!window.MediaRecorder||!canvas.captureStream){status('Your browser cannot export video. Please use Chrome.');return}
+  const stream=canvas.captureStream(30);
+  startAudio(true,stream);
+  const types=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'];
+  const mime=types.find(t=>MediaRecorder.isTypeSupported(t))||'';
+  try{mr=new MediaRecorder(stream,mime?{mimeType:mime,videoBitsPerSecond:5000000}:{})}catch(e){status('Could not start recording.');stopAudio();return}
+  chunks=[];cancelled=false;
+  mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+  mr.onstop=()=>{
+    if(cancelled)return;
+    const type=mr.mimeType||mime||'video/webm',blob=new Blob(chunks,{type}),a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);a.download='vidtoon-video.'+(type.includes('mp4')?'mp4':'webm');
+    document.body.appendChild(a);a.click();a.remove();
+    status('Done! Your video was downloaded.');
+  };
+  mr.start(500);recording=true;
+  status('Recording… keep this tab open (about '+mmss(total)+')');
+  startPlay();
+}
+
+/* ---------- UI wiring ---------- */
+function setFormat(f){
+  const m={'16:9':[1280,720],'9:16':[720,1280],'1:1':[900,900]};
+  [W,H]=m[f];canvas.width=W;canvas.height=H;
+  const st=$('#stage');st.style.aspectRatio=W+' / '+H;st.style.maxWidth=f==='9:16'?'340px':f==='1:1'?'520px':'100%';
+  renderIdle();
+}
+let tmr;const later=()=>{clearTimeout(tmr);tmr=setTimeout(renderIdle,200)};
+$('#script').addEventListener('input',later);
+$('#bg').addEventListener('change',renderIdle);
+$$('#chars input').forEach(i=>i.addEventListener('change',()=>{if($$('#chars input:checked').length>2)i.checked=false;renderIdle()}));
+$$('[data-mode]').forEach(b=>b.onclick=()=>{
+  stop();mode=b.dataset.mode;$$('[data-mode]').forEach(x=>x.classList.toggle('on',x===b));
+  $('#cartoonOpts').hidden=mode!=='cartoon';$('#mediaOpts').hidden=mode!=='media';renderIdle();
+});
+$$('[data-fmt]').forEach(b=>b.onclick=()=>{stop();$$('[data-fmt]').forEach(x=>x.classList.toggle('on',x===b));setFormat(b.dataset.fmt)});
+$('#speed').addEventListener('input',e=>{$('#speedV').textContent=(+e.target.value).toFixed(1)+'x'});
+$('#media').addEventListener('change',e=>{
+  media=[];
+  [...e.target.files].forEach(f=>{
+    const url=URL.createObjectURL(f);
+    if(f.type.startsWith('image')){const im=new Image();im.onload=renderIdle;im.src=url;media.push({type:'img',el:im})}
+    else if(f.type.startsWith('video')){const v=document.createElement('video');v.src=url;v.muted=true;v.loop=true;v.playsInline=true;v.preload='auto';media.push({type:'vid',el:v})}
+  });
+  $('#mediaInfo').textContent=media.length?media.length+' file(s) ready.':'No files yet.';
+});
+$('#music').addEventListener('change',e=>{const f=e.target.files[0];audioURL=f?URL.createObjectURL(f):null});
+$('#bPlay').onclick=preview;$('#bStop').onclick=stop;$('#bExp').onclick=exportVideo;
+$('#s1').onclick=()=>{$('#script').value="Hi! I am Zee. Today I will tell you a cool fact.\nHoney never spoils. Archaeologists found edible honey in ancient tombs!\nWow, that is amazing. Tell me more!\nBees visit millions of flowers to make just one jar of honey.\nThanks for watching. Follow for more fun facts!";renderIdle()};
+$('#s2').onclick=()=>{$('#script').value="Nobody starts as an expert.\nEvery master was once a beginner.\nDo a little every single day.\nSmall steps become big results.\nStart today. Your future self will thank you.";renderIdle()};
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(renderIdle);
+setFormat('16:9');
+</script>
+</body>
+</html>
